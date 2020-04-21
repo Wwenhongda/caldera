@@ -28,7 +28,8 @@ class Operation(BaseObject):
                                start=self.start.strftime('%Y-%m-%d %H:%M:%S') if self.start else '',
                                state=self.state, obfuscator=self.obfuscator,
                                autonomous=self.autonomous, finish=self.finish,
-                               chain=[lnk.display for lnk in self.chain]))
+                               chain=[lnk.display for lnk in self.chain],
+                               goals=self.goals.display()))
 
     @property
     def states(self):
