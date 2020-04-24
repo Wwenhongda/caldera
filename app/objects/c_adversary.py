@@ -20,10 +20,7 @@ class Adversary(BaseObject):
         self.name = name
         self.description = description
         self.atomic_ordering = atomic_ordering
-        if goals:
-            self.goals = goals
-        else:
-            self.goals = []
+        self.goals = goals if goals else []
 
     def store(self, ram):
         existing = self.retrieve(ram['adversaries'], self.unique)

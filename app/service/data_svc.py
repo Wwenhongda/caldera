@@ -151,11 +151,8 @@ class DataService(BaseService):
             return []
 
     async def _load_goals(self, adversary):
-        listing = list()
-        for goal in adversary.get('goals'):
-            listing.append(Goal(target=goal['target'], value=goal['value'], count=goal.get('count', 1),
-                                operator=goal.get('operator', '=')))
-        return listing
+        return [Goal(target=goal['target'], value=goal['value'], count=goal.get('count', 1),
+                     operator=goal.get('operator', '=')) for goal in adversary.get('goals')]
 
     async def _load(self, plugins=()):
         try:
@@ -181,8 +178,7 @@ class DataService(BaseService):
                     ordering = await self._load_phase_adversary_variant(adv)
                 else:
                     ordering = adv.get('atomic_ordering', list())
-                if adv.get('goals'):
-                    goals = await self._load_goals(adv)
+                goals = await self._load_goals(adv) if adv.get('goals') else []
                 atomic_ordering = await self._link_abilities(ordering, adv)
                 adversary = Adversary(adversary_id=adv['id'], name=adv['name'], description=adv['description'],
                                       atomic_ordering=atomic_ordering, goals=goals)
